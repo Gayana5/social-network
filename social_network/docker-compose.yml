@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:14
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: social
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend
+
+  db-service:
+    build: ./db-service
+    container_name: db-service
+    depends_on:
+      - db
+    ports:
+      - "8082:8082"
+    networks:
+      - backend
+
+  processor:
+    build: ./processor
+    container_name: processor
+    depends_on:
+      - db-service
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    depends_on:
+      - processor
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+volumes:
+  db_data:
+
+networks:
+  backend:
