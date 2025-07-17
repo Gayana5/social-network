@@ -44,16 +44,23 @@ social-network/
 ├── api-gateway/        # Приём HTTP-запросов
 │   ├── main.go
 │   ├── handlers/
-│   └── routes/
+│   ├── routes/
+│   └── Dockerfile
 │
 ├── processor/          # Бизнес-логика
 │   ├── main.go
-│   └── handlers/
+│   ├── handlers/
+│   ├── utils/
+│   ├── routes/
+│   └── Dockerfile
 │
 ├── db-service/         # Работа с БД
 │   ├── main.go
 │   ├── database/
-│   └── routes/
+│   ├── routes/
+│   ├── models/
+│   ├── handlers/
+│   └── Dockerfile
 │
 ├── docker-compose.yml  # Поднятие всех сервисов
 └── init.sql            # Скрипт инициализации базы данных
@@ -118,7 +125,7 @@ Content-Type: application/json
 ```json
 {
   "user_id": 1,
-  "content": "Привет, это мой первый пост!"
+  "content": "Текст поста"
 }
 ```
 
@@ -150,7 +157,7 @@ Content-Type: application/json
 ```json
 {
   "user_id": 1,
-  "content": "Классный пост!"
+  "content": "Текст комментария"
 }
 ```
 
